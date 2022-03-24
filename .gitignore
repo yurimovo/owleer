@@ -1,0 +1,15 @@
+node_modules
+__pycache__/
+.idea
+.vscode/
+.DS_Store
+public
+/.backend/
+yarn.lock
+backend/.python-version
+/backend/Brewfile
+/backend/Brewfile.lock.json
+/backend/venv/
+/backend/owleer/
+../backend/app/config.py
+/frontend/yarn.lock

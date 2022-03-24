@@ -1,0 +1,24 @@
+
+FROM python:3.7-slim AS compile-image
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential gcc
+
+RUN python -m venv /opt/venv
+# Make sure we use the virtualenv:
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN python -m pip install --upgrade pip
+
+COPY backend/requirements.lock.txt .
+RUN pip install -r requirements.lock.txt
+
+# build runtime image
+FROM python:3.7-slim AS build-image
+COPY --from=compile-image /opt/venv /opt/venv
+
+# Make sure we use the virtualenv:
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY backend /app
+WORKDIR /app
+
+ENTRYPOINT [ "celery", "-A", "app.tasks", "worker", "-l", "INFO" ]

@@ -1,0 +1,13 @@
+name: Telegram Notifications
+on: [push]
+
+jobs:
+  notify:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send notifications to Telegram
+      run: curl -s -X POST https://api.telegram.org/bot1914418659:AAFev2RBu-3dFSPiQsh3IJloQSAdg1fPE0I/sendMessage -d chat_id="-1001423765115" -d text="${MESSAGE}" >> /dev/null
+      env:
+        MESSAGE: "${{  github.actor }} pushed new update for owleer.io 🎉 \nRepository: ${{ github.repository }} \nChange: ${{ github.event.head_commit.message }}"
